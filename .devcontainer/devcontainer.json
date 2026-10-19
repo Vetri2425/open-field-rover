@@ -1,0 +1,35 @@
+{
+  "name": "open-field-rover",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "ros",
+  "workspaceFolder": "/home/ros/ws",
+  "postCreateCommand": "colcon build --symlink-install",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-vscode.cpptools",
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "charliermarsh.ruff",
+        "DotJoshJohnson.xml",
+        "ms-vscode.makefile-tools",
+        "eamodio.gitlens"
+      ],
+      "settings": {
+        "python.linting.enabled": true,
+        "python.linting.flake8Enabled": true,
+        "python.linting.flake8Args": ["--max-line-length=100"],
+        "python.formatting.provider": "black",
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "charliermarsh.ruff"
+      }
+    }
+  },
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "remoteUser": "ros",
+  "mounts": [
+    "source=${localEnv:HOME}/.ssh,target=/home/ros/.ssh,type=bind,consistency=cached"
+  ]
+}

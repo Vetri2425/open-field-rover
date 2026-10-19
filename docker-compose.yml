@@ -1,0 +1,41 @@
+services:
+  ros:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: open-field-rover
+    image: open-field-rover:latest
+    hostname: ros-container
+    environment:
+      - DISPLAY=:1
+      - ROS_DOMAIN_ID=0
+      - GAZEBO_MODEL_PATH=/home/ros/ws/src/ofr_gazebo/models
+      - GAZEBO_RESOURCE_PATH=/home/ros/ws/src/ofr_gazebo
+    volumes:
+      - ./src:/home/ros/ws/src
+      - ./dashboard:/home/ros/ws/dashboard
+      - ./docs:/home/ros/ws/docs
+      - ./scripts:/home/ros/ws/scripts
+      - ros-build:/home/ros/ws/build
+      - ros-install:/home/ros/ws/install
+      - ros-log:/home/ros/ws/log
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+    ports:
+      - "6080:6080"  # noVNC
+      - "5900:5900"  # VNC
+      - "9090:9090"  # rosbridge websocket
+    networks:
+      - ros-net
+    stdin_open: true
+    tty: true
+    cap_add:
+      - SYS_PTRACE
+
+volumes:
+  ros-build:
+  ros-install:
+  ros-log:
+
+networks:
+  ros-net:
+    driver: bridge
