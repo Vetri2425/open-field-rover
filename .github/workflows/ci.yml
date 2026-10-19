@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  precommit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: pre-commit/action@v3.0.1
+
+  build-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build image
+        run: docker build -t open-field-rover:ci .
+
+      - name: colcon build + unit tests
+        run: |
+          docker run --rm -v "$PWD/src:/home/ros/ws/src" open-field-rover:ci bash -c "
+            source /opt/ros/jazzy/setup.bash && cd /home/ros/ws &&
+            colcon build --symlink-install &&
+            colcon test --event-handlers console_direct+ &&
+            colcon test-result --verbose"
+
+      - name: Headless simulation smoke test
+        run: |
+          docker run --rm -v "$PWD/src:/home/ros/ws/src" -v "$PWD/scripts:/home/ros/ws/scripts" \
+            open-field-rover:ci bash -c "
+            source /opt/ros/jazzy/setup.bash && cd /home/ros/ws &&
+            colcon build --symlink-install >/dev/null &&
+            scripts/smoke_test.sh"
