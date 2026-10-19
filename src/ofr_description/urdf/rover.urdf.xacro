@@ -184,7 +184,7 @@
       <right_joint>right_wheel_joint</right_joint>
       <wheel_separation>0.4</wheel_separation>
       <wheel_diameter>0.2</wheel_diameter>
-      <topic>cmd_vel</topic>
+      <topic>cmd_vel_safe</topic>
       <max_linear_acceleration>1.0</max_linear_acceleration>
       <max_angular_acceleration>2.0</max_angular_acceleration>
     </plugin>

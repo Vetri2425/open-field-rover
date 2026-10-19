@@ -10,6 +10,7 @@
   <author email="vetri96anitha@gmail.com">Vetri</author>
 
   <buildtool_depend>ament_cmake</buildtool_depend>
+  <depend>ofr_safety</depend>
   <depend>ros_gz_sim</depend>
   <depend>ros_gz_bridge</depend>
   <depend>robot_state_publisher</depend>

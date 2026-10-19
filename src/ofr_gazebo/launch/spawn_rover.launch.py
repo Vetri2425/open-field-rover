@@ -68,12 +68,14 @@ def generate_launch_description():
                 output="screen",
                 parameters=[{"use_sim_time": use_sim_time}],
             ),
+            # Safety watchdog: /cmd_vel -> /cmd_vel_safe, zero after 0.5 s of silence
+            Node(package="ofr_safety", executable="cmd_vel_watchdog", output="screen"),
             # ROS-Gazebo bridge: map Gazebo topics to ROS 2
             Node(
                 package="ros_gz_bridge",
                 executable="parameter_bridge",
                 arguments=[
-                    "/cmd_vel@geometry_msgs/msg/Twist]gz.msgs.Twist",
+                    "/cmd_vel_safe@geometry_msgs/msg/Twist]gz.msgs.Twist",
                     "/odom@nav_msgs/msg/Odometry[gz.msgs.Odometry",
                     "/imu/data@sensor_msgs/msg/Imu[gz.msgs.IMU",
                     "/scan@sensor_msgs/msg/LaserScan[gz.msgs.LaserScan",
