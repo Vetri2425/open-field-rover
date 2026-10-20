@@ -37,4 +37,4 @@ jobs:
             open-field-rover:ci bash -c "
             source /opt/ros/jazzy/setup.bash && cd /home/ros/ws &&
             colcon build --symlink-install >/dev/null &&
-            scripts/smoke_test.sh"
+            bash scripts/smoke_test.sh"
