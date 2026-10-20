@@ -38,5 +38,4 @@ ENV DISPLAY=:1 \
 
 WORKDIR /home/ros/ws
 
-ENTRYPOINT ["/bin/bash"]
-CMD ["-c", "supervisord -c /etc/supervisor/conf.d/supervisord.conf && tail -f /dev/null"]
+CMD ["bash", "-c", "supervisord -c /etc/supervisor/conf.d/supervisord.conf && tail -f /dev/null"]
